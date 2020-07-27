@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/DiegoMMF/themisto#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "koa": "^2.13.0",
     "puppeteer": "^5.2.1"
   },
