@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-async function scrapear(searchProvider, searchTerm){
+async function cetroSearch(searchProvider, searchTerm){
     const browser = await puppeteer.launch({headless: false, defaultViewport: false});
     const page = await browser.newPage();
     
@@ -35,4 +35,4 @@ async function scrapear(searchProvider, searchTerm){
     console.log(articles);
 };
 
-module.exports = scrapear;
+module.exports = cetroSearch;

@@ -2,9 +2,9 @@
   "name": "themisto",
   "version": "1.0.0",
   "description": "product search with puppeteer recives jobs from ganymede",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/app.js"
   },
   "repository": {
     "type": "git",

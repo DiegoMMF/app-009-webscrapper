@@ -16,7 +16,7 @@ require('dotenv').config();
 const Koa = require('koa');
 const KoaRouter = require("koa-router");
 const bodyParser = require('koa-bodyparser');
-const scrapear = require('./productProviders/cetrogar');
+const scrapeMeThis = require('./scrapingThemistoWay/scrapeMeThis');
 
 const app = new Koa();
 const router = new KoaRouter();
@@ -26,7 +26,9 @@ app.use(bodyParser());
 router.get("/scrape-me", (ctx, next) => {
     let searchOrder = ctx.request.body;
     console.log("Ahora enviamos 'searchOrder.searchData' a selector()", searchOrder.searchData);
-    scrapear(searchOrder.searchData.provider, searchOrder.searchData.query);
+    let resultado = null;
+    resultado = scrapeMeThis(searchOrder.searchData.provider, searchOrder.searchData.query);
+    console.log("Este JSON me devolvió scrapeMeThis, que a su vez le devolvió cetroSearch: ", resultado)
 });
 
 app.use(router.routes()).use(router.allowedMethods());
