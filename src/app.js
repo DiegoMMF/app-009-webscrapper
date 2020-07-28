@@ -26,9 +26,10 @@ app.use(bodyParser());
 router.get("/scrape-me", (ctx, next) => {
     let searchOrder = ctx.request.body;
     console.log("Ahora enviamos 'searchOrder.searchData' a selector()", searchOrder.searchData);
-    let resultado = null;
-    resultado = scrapeMeThis(searchOrder.searchData.provider, searchOrder.searchData.query);
-    console.log("Este JSON me devolvió scrapeMeThis, que a su vez le devolvió cetroSearch: ", resultado)
+    // let resultado = null;
+    // resultado = scrapeMeThis(searchOrder.searchData.provider, searchOrder.searchData.query);
+    // console.log("Este JSON me devolvió scrapeMeThis, que a su vez le devolvió cetroSearch: ", resultado);
+    scrapeMeThis(searchOrder.searchData.provider, searchOrder.searchData.query);
 });
 
 app.use(router.routes()).use(router.allowedMethods());

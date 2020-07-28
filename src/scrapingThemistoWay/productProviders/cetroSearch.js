@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 async function cetroSearch(searchProvider, searchTerm){
-    const browser = await puppeteer.launch({headless: false, defaultViewport: false});
+    const browser = await puppeteer.launch(/* {headless: false, defaultViewport: false} */);
     const page = await browser.newPage();
     
     await page.goto(searchProvider);
