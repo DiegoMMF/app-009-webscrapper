@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-async function cetroSearch(searchProvider, searchTerm){
+const cetroSearch = async (searchProvider, searchTerm) => {
     const browser = await puppeteer.launch(/* {headless: false, defaultViewport: false} */);
     const page = await browser.newPage();
     
@@ -32,6 +32,7 @@ async function cetroSearch(searchProvider, searchTerm){
     
     await browser.close();
     
+    // ctx.app.use(ctx => ctx.body = articles);
     console.log(articles);
 };
 

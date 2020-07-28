@@ -17,16 +17,23 @@
 // scrapear(searchData.provider);
 
 const cetroSearch = require("./productProviders/cetroSearch");
+const exampleSearch = require("./productProviders/exampleSearch");
 
-async function scrapeMeThis(providerUrl, productToScrape) {
+const scrapeMeThis = async (providerUrl, productToScrape) => {
+    let respuesta = null;
     switch (providerUrl) {
         case "https://www.cetrogar.com.ar/":
             return await cetroSearch(providerUrl, productToScrape);
+        case "http://books.toscrape.com/":
+            // respuesta = exampleSearch(providerUrl, productToScrape);
+            console.log("exampleSearch(providerUrl, productToScrape): ", await exampleSearch(providerUrl, productToScrape)
+                .then(console.log("promesa después del llamado a exampleSearch desde ")));
+            break;
         default:
             console.log("Disculpas, por ahora tenemos un solo proveedor porsible: Cetrohome...")
             break;
-    }
-    
+    };
+    // console.log("texto después del switch");
 }
 
 module.exports = scrapeMeThis;
