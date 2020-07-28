@@ -25,9 +25,7 @@ app.use(bodyParser());
 
 router.get("/scrape-me", async (ctx, next) => {
     let searchOrder = ctx.request.body;
-    console.log("Ahora enviamos 'searchOrder.searchData' a selector()", searchOrder.searchData);
-    let respuesta = await scrapeMeThis(searchOrder.searchData.provider, searchOrder.searchData.query);
-    console.log("JSON.stringify(respuesta) después de scrapeMeThis", respuesta);
+    let respuesta = await scrapeMeThis(searchOrder.searchData);
     ctx.body = respuesta;
 });
 

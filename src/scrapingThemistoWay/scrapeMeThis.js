@@ -1,45 +1,23 @@
-/**
- * The single job for this module is to determine which Puppeteer instance we should use for the current product search
- * 
- * So far it works...
- */
-
-// Desactualizado...
-//
-// require('dotenv').config();
-// 
-// const scrapear = require("./productProviders/cetrogar");
-// 
-// const searchData = JSON.parse(process.env.SEARCH_DATA);     // dummy-data para probar.
-// 
-// console.log(searchData.provider);
-// 
-// scrapear(searchData.provider);
-
 const cetroSearch = require("./productProviders/cetroSearch");
 const exampleSearch = require("./productProviders/exampleSearch");
 
-const scrapeMeThis = async (providerUrl, productToScrape) => {
+const scrapeMeThis = async (searchData) => {
+    let { provider, query } = searchData;
+    console.log("searchData.query", query);
+    console.log("searchData.provider", provider);
     let respuesta = null;
-    switch (providerUrl) {
-        case "https://www.cetrogar.com.ar/":
-            return await cetroSearch(providerUrl, productToScrape);
-        case "http://books.toscrape.com/":
-            respuesta = await exampleSearch(providerUrl, productToScrape);
-            console.log("exampleSearch(providerUrl, productToScrape): ", respuesta);
-                //.then(console.log("promesa después del llamado a exampleSearch desde ")));
-            return respuesta;
+    switch (provider) {
+        case "cetrogar":
+            respuesta = await cetroSearch(query);
+            break;
+        case "dummyWeb":
+            respuesta = await exampleSearch(query);            
             break;
         default:
-            console.log("Disculpas, por ahora tenemos un solo proveedor porsible: Cetrohome...")
+            console.log('Por favor, elija uno de los proveedores indicados: "cetrogar" o "dummyWeb')
             break;
     };
-    console.log("texto después del switch");
-    // let resultado = null;
-    // resultado = scrapeMeThis(searchOrder.searchData.provider, searchOrder.searchData.query);
-    // console.log("Este JSON me devolvió scrapeMeThis, que a su vez le devolvió cetroSearch: ", resultado);
-    
-    // app.use(async ctx => ctx.body = 
+    return respuesta;
 }
 
 module.exports = scrapeMeThis;
