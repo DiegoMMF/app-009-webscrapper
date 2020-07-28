@@ -1,42 +1,19 @@
-require('dotenv').config();
-const scrapear = require("./productProviders/cetrogar");
-
-const searchData = JSON.parse(process.env.SEARCH_DATA);
-console.log(searchData.provider);
-
-scrapear(searchData.provider);
-
 /**
- * Recibimos el JSON de Ganymede que contiene lo necesario para efectuar la búsqueda:
- * {
- *     cliente: {
- *         nombre: "ganymede",
- *         clave: "ganym3d3"
- *         searchOrderID
- *     },
- *     searchData: {
- *         query: "silla",
- *         provider: "proveedor",
- *         options: {
- *             finalUserName: "nombreUsuarioEnProveedor",
- *             finalUserPass: "claveUsuarioEnProveedor"
- *         }
- *     }
- * }
+ * 1) Requerimos dotenv para utilizar variables de entorno
+ * 2) Importamos e inicializamos módulos del servidor y middlewares (enrutadores)
+ * 3) Recibimos un GET con el JSON searchOrder completo
+ *  3.1) Ver si es aquí que solucionamos el problema de la autenticación (para que sólo Ganymede nos llame)
+ * 4) Pasamos searchOrder.searchData al módulo selector.js (debemos importarlo)
+ *  4.1) Recibimos [status, productList] del selector
+ *  4.2) Ver si es aquí que manejamos los errores o dentro de las funciones llamadas
+ * 5) Devolvemos searchOrder (JSON completo actualizado)como respuesta a la llamada inicial
  */
+const Koa = require('koa');
+const app = new Koa();
 
-/**
- * Cotejamos que el JSON tenga usuario y clave adecuadas ("ganymede" y "ganym3d3")
- * que bien podrían estar guardados como variable de entorno.
- */
+app.use(async ctx => {
+  ctx.body = 'Hello World';
+});
 
-/**
- * Lanzamos la instancia adecuada de Puppeteer, según el proveedor que hayan requerido
- * con {searchData} como parámetro. Llamarlo como función en otro archivo, mediante un switch e/proveedores
- */
-
-/**
- * Recogemos la devolución de la función anterior.
- * Si la búsqueda da error, enviamos un HTTP con el código correspondiente + searchOrderID.
- * Si la búsqueda es exitosa, enviamos un HTTP/JSON con { listaProductos + search_order_id }
- */
+app.listen(3000);
+//

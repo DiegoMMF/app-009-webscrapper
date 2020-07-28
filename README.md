@@ -10,6 +10,38 @@
 
 3) finalmente, 
 
+# Lo que haremos
+Recibimos el JSON de Ganymede que contiene lo necesario para efectuar la búsqueda:
+{
+    cliente: {
+        nombre: "ganymede",
+        clave: "ganym3d3"
+        searchOrderID
+    },
+    searchData: {
+        query: "silla",
+        provider: "proveedor",
+        options: {
+            finalUserName: "nombreUsuarioEnProveedor",
+            finalUserPass: "claveUsuarioEnProveedor"
+        }
+    }
+}
+
+
+Cotejamos que el JSON tenga usuario y clave adecuadas ("ganymede" y "ganym3d3")
+que bien podrían estar guardados como variable de entorno.
+
+
+Lanzamos la instancia adecuada de Puppeteer, según el proveedor que hayan requerido
+con {searchData} como parámetro. Llamarlo como función en otro archivo, mediante un switch e/proveedores
+
+
+Recogemos la devolución de la función anterior.
+Si la búsqueda da error, enviamos un HTTP con el código correspondiente + searchOrderID.
+Si la búsqueda es exitosa, enviamos un HTTP/JSON con { listaProductos + search_order_id }
+
+
 
 # Consignas
 Search jobs: 
@@ -17,4 +49,4 @@ Search jobs:
 
 When Themisto picks up a search job, it uses Puppeteer to crawl the website of the corresponding provider and performs an automated search for products. 
 
-Each provider may allow / require different options, such as user credentials. 
+Each provider may allow / require different options, such as user credentials.

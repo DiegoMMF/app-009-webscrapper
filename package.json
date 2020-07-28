@@ -4,7 +4,7 @@
   "description": "product search with puppeteer recives jobs from ganymede",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "puppeteer": "^5.2.1"
   },
   "devDependencies": {
-    "jsdoc-md": "^7.0.0"
+    "jsdoc-md": "^7.0.0",
+    "nodemon": "^2.0.4"
   }
 }
