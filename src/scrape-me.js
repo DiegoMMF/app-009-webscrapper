@@ -4,13 +4,14 @@
  * So far it works...
  */
 
-require('dotenv').config();
-const searchData = JSON.parse(process.env.SEARCH_DATA);     // dummy-data para probar.
-
-const scrapear = require("./productProviders/cetrogar");
-
-const searchData = JSON.parse(process.env.SEARCH_DATA);     // dummy-data para probar.
-
-console.log(searchData.provider);
-
-scrapear(searchData.provider);
+// Desactualizado...
+//
+// require('dotenv').config();
+// 
+// const scrapear = require("./productProviders/cetrogar");
+// 
+// const searchData = JSON.parse(process.env.SEARCH_DATA);     // dummy-data para probar.
+// 
+// console.log(searchData.provider);
+// 
+// scrapear(searchData.provider);
