@@ -1,12 +1,12 @@
 const puppeteer = require('puppeteer');
 
-async function scrapear(searchDataUrl){
+async function scrapear(searchProvider, searchTerm){
     const browser = await puppeteer.launch({headless: false, defaultViewport: false});
     const page = await browser.newPage();
     
-    await page.goto(searchDataUrl);
+    await page.goto(searchProvider);
 
-    await page.type("#search", "televisor", {delay: 100});
+    await page.type("#search", searchTerm, {delay: 100});
     await page.keyboard.press("Enter");
 
     await page.waitForSelector('ol[class="products list items product-items  defer-images-grid"]');
