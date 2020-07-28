@@ -26,13 +26,9 @@ app.use(bodyParser());
 router.get("/scrape-me", async (ctx, next) => {
     let searchOrder = ctx.request.body;
     console.log("Ahora enviamos 'searchOrder.searchData' a selector()", searchOrder.searchData);
-    // let resultado = null;
-    // resultado = scrapeMeThis(searchOrder.searchData.provider, searchOrder.searchData.query);
-    // console.log("Este JSON me devolvió scrapeMeThis, que a su vez le devolvió cetroSearch: ", resultado);
-    
-    // app.use(async ctx => ctx.body = 
-    await scrapeMeThis(searchOrder.searchData.provider, searchOrder.searchData.query);
-    console.log("texto después de scrapeMeThis");
+    let respuesta = await scrapeMeThis(searchOrder.searchData.provider, searchOrder.searchData.query);
+    console.log("JSON.stringify(respuesta) después de scrapeMeThis", respuesta);
+    ctx.body = respuesta;
 });
 
 app.use(router.routes()).use(router.allowedMethods());

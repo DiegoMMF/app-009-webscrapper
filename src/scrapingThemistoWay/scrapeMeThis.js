@@ -25,15 +25,21 @@ const scrapeMeThis = async (providerUrl, productToScrape) => {
         case "https://www.cetrogar.com.ar/":
             return await cetroSearch(providerUrl, productToScrape);
         case "http://books.toscrape.com/":
-            // respuesta = exampleSearch(providerUrl, productToScrape);
-            console.log("exampleSearch(providerUrl, productToScrape): ", await exampleSearch(providerUrl, productToScrape)
-                .then(console.log("promesa después del llamado a exampleSearch desde ")));
+            respuesta = await exampleSearch(providerUrl, productToScrape);
+            console.log("exampleSearch(providerUrl, productToScrape): ", respuesta);
+                //.then(console.log("promesa después del llamado a exampleSearch desde ")));
+            return respuesta;
             break;
         default:
             console.log("Disculpas, por ahora tenemos un solo proveedor porsible: Cetrohome...")
             break;
     };
-    // console.log("texto después del switch");
+    console.log("texto después del switch");
+    // let resultado = null;
+    // resultado = scrapeMeThis(searchOrder.searchData.provider, searchOrder.searchData.query);
+    // console.log("Este JSON me devolvió scrapeMeThis, que a su vez le devolvió cetroSearch: ", resultado);
+    
+    // app.use(async ctx => ctx.body = 
 }
 
 module.exports = scrapeMeThis;

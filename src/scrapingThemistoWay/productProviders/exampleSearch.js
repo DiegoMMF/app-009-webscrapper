@@ -32,7 +32,7 @@ const exampleSearch = async (searchProvider, searchTerm) => {
     await browser.close();
     
     console.log("articles en exampleSearch ", articles);
-    return articles;
+    return JSON.stringify(articles);
 };
 
 module.exports = exampleSearch;
