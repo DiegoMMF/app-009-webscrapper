@@ -23,7 +23,7 @@ const router = new KoaRouter();
 
 app.use(bodyParser());
 
-router.get("/scrape-me", async (ctx, next) => {
+router.get("/", async (ctx, next) => {
     let searchOrder = ctx.request.body;
     let respuesta = await scrapeMeThis(searchOrder.searchData);
     ctx.body = respuesta;
