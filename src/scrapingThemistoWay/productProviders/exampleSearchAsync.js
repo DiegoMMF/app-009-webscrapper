@@ -1,38 +1,30 @@
-// #default > div > div > div > div > section > div:nth-child(2) > ol > li:nth-child(1) > article > div.product_price > p.price_color
-// #default div section article p.price_color
-
 const puppeteer = require('puppeteer');
 
-const exampleSearch = async (searchProvider, searchTerm) => {
-    const browser = await puppeteer.launch(/* {headless: false, defaultViewport: false} */);
+const exampleSearch = async (searchTerm) => {
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    
-    await page.goto(searchProvider);
-
-    console.log(`recibimos ${searchTerm} pero no lo usamos`);
-
+    await page.goto("http://books.toscrape.com/", { timeout: 0 });
     await page.waitForSelector('#default > div > div > div > div > div.page-header.action > h1');
-
-    let lis = [];
-    lis = await page.$$('p.price_color')
-    console.log("lis length = " + lis.length);
-      
-    const articles = [];
-
-    try {
-        const title = await page.$eval(("div section article p.price_color"), element => element.innerText);
-        const article = {
-            precio: title
+    
+    let elementos = await page.$$("div section article"); // esto devuelve "elementos" como un arreglo de "ElementHandlers" con el selector solicitado
+    
+    listaDePrecios = [];
+    
+    for (const elemento of elementos) {
+        try {
+            const precioContado = await elemento.$eval(("div section article .price_color"), (element) => element.innerText);
+            const nombreProducto = await elemento.$eval(("article h3 a"), element => element.innerText);
+            const dupla = {
+                actualPrice: precioContado,
+                productName: nombreProducto
+            };
+            listaDePrecios.push(dupla);
+        } catch (err) {
+            console.log("error: ", err);
         }
-        articles.push(article)
-    } catch (err) {
-        console.log("error: ", err);
-    }
-    
-    await browser.close();
-    
-    console.log("articles en exampleSearch ", articles);
-    return articles;
+    await browser.close();    
+    return JSON.stringify(listaDePrecios);
+    };
 };
 
 module.exports = exampleSearch;

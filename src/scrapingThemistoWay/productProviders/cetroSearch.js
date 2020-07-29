@@ -3,27 +3,30 @@ const puppeteer = require('puppeteer');
 const cetroSearch = async (searchTerm) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();    
-    await page.goto("https://www.cetrogar.com.ar/");
+    await page.goto("https://www.cetrogar.com.ar/", { timeout: 0 });
     await page.type("#search", searchTerm, {delay: 100});
     await page.keyboard.press("Enter");
-    await page.waitForSelector('ol[class="products list items product-items  defer-images-grid"]');
-    let lis = [];
-    lis = await page.$$('ol li span[data-price-type="finalPrice"]')
-    const articles = [];
-    for (const li of lis) {
+    await page.waitForSelector('#maincontent > div.columns > div.column.main > div.search.results > div.products.wrapper.grid.products-grid > ol');
+    // otro selector posible: "ol[class="products list items product-items  defer-images-grid"]"
+    
+    let arregloDeElementos = [];
+    arregloDeElementos = await page.$$('#maincontent > div.columns > div.column.main > div.search.results > div.products.wrapper.grid.products-grid > ol > li')
+    const arregloDeProductos = [];
+    for (const cadaElemento of arregloDeElementos) {
         try {
-            const title = await li.$eval(("span.price"), (element) => element.innerText); // probar $$eval, si llego con el tiempo.
-            const article = {
-                precio: title
-            }
-            articles.push(article)
+            const precioContado = await cadaElemento.$eval(('span[data-price-type="finalPrice"] span.price'), (element) => element.innerText);
+            const nombreProducto = await cadaElemento.$eval((".product-item-link"), element => element.innerText);
+            const productoAGuardar = {
+                actualPrice: precioContado,
+                productName: nombreProducto
+            };
+            arregloDeProductos.push(productoAGuardar);
         } catch (err) {
-            // this occurs if any of the tags (h2, img, span) was not found
             console.log("error: ", err);
         }
     }    
     await browser.close();    
-    return JSON.stringify(articles);
+    return JSON.stringify(arregloDeProductos);
 };
 
 module.exports = cetroSearch;

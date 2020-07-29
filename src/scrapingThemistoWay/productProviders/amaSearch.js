@@ -1,10 +1,12 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer')
 
-const exampleSearch = async (searchTerm) => {
+const amaSearch = async (searchTerm) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto("http://books.toscrape.com/");
-    await page.waitForSelector('#default > div > div > div > div > div.page-header.action > h1');
+    await page.goto('https://www.amazon.com.mx', { timeout: 0 })
+    await page.type('#twotabsearchtextbox', searchTerm, {delay: 100})
+    await page.click('input.nav-input')
+    await page.waitForSelector('div.s-main-slot.s-result-list.s-search-results.sg-row')
     
     let divs = [];
     divs = await page.$$('div[class="s-result-list s-search-results sg-row"] > div')
@@ -36,9 +38,14 @@ const exampleSearch = async (searchTerm) => {
             console.log("error: ", err);
         }
     }
-    
-    await browser.close();    
-    // return JSON.stringify(listaDePrecios);
-};
 
-module.exports = exampleSearch;
+    await browser.close()
+
+    return articles;
+}
+
+doWebScraping()
+    .then((articles) => {
+        console.log("articles: ", articles);
+    })
+    .catch((err) => console.log(err));
