@@ -49,6 +49,7 @@ const cetroSearch = async (searchTerm) => {
         } catch (error) {
             console.log("error en productoAGuardar.imagesUrl = urlImagen ---> ", error);
         };
+        
         arregloDeProductos.push(productoAGuardar);
     }
     await browser.close();
