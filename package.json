@@ -4,8 +4,9 @@
   "description": "product search with puppeteer recives jobs from ganymede",
   "main": "app.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "start": "node index.js",
+    "web": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
