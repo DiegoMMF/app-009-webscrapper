@@ -13,11 +13,14 @@ app.use(bodyParser());
 app.use(cors());
 
 router.get("/", async (ctx, next) => {
-    const searchOrder = ctx.request.body;
-    const respuesta = await scrapeMeThis(searchOrder.searchData);
-    console.log(typeof respuesta);
-    searchOrder.productList = respuesta;
-    ctx.body = searchOrder;
+    if (ctx.is() === null) {
+        ctx.body = "Request must contain a SearchOrder schema-type BODY. Try again, please.";
+    } else {    
+        const searchOrder = ctx.request.body;
+        const respuesta = await scrapeMeThis(searchOrder.searchData);
+        searchOrder.productList = respuesta;
+        ctx.body = searchOrder;
+    }
 });
 
 app.use(router.routes()).use(router.allowedMethods());
