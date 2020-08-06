@@ -61,3 +61,17 @@ Search jobs:
 2) Ensure clients are properly authenticated.
 3) T uses Puppeteer to crawl the website of the corresponding provider and performs an automated search for products.
 4) Each provider may allow / require different options, such as user credentials.
+
+# Running Puppeteer on Heroku:
+
+Running Puppeteer on Heroku requires some additional dependencies that aren't included on the Linux box that Heroku spins up for you. To add the dependencies on deploy, add the Puppeteer Heroku buildpack to the list of buildpacks for your app under Settings > Buildpacks. 
+
+The url for the buildpack is https://github.com/jontewks/puppeteer-heroku-buildpack
+
+Ensure that you're using '--no-sandbox' mode when launching Puppeteer. This can be done by passing it as an argument to your .launch() call: puppeteer.launch({ args: ['--no-sandbox'] });.
+
+When you click add buildpack, simply paste that url into the input, and click save. On the next deploy, your app will also install the dependencies that Puppeteer needs to run.
+
+If you need to render Chinese, Japanese, or Korean characters you may need to use a buildpack with additional font files like https://github.com/CoffeeAndCode/puppeteer-heroku-buildpack
+
+There's also another simple guide from @timleland that includes a sample project: https://timleland.com/headless-chrome-on-heroku/.
