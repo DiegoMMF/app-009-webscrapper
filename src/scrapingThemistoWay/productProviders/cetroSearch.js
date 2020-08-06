@@ -53,7 +53,7 @@ const cetroSearch = async (searchTerm) => {
         arregloDeProductos.push(productoAGuardar);
     }
     await browser.close();
-    return JSON.stringify(arregloDeProductos);
+    return arregloDeProductos;
 };
 
 module.exports = cetroSearch;

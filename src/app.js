@@ -1,16 +1,3 @@
-/**
- * LISTO: 1) Requerimos dotenv para utilizar variables de entorno
- * LISTO: 2) Importamos e inicializamos módulos del servidor y middlewares (enrutadores)
- * LISTO: 3) Recibimos un GET con el JSON searchOrder completo
- * 
- *  3.1) Ver si es aquí que solucionamos el problema de la autenticación (para que sólo Ganymede nos llame)
- * 
- * LISTO 4) Pasamos searchOrder.searchData al módulo selector.js (debemos importarlo)
- * 
- *  4.1) Recibimos [status, productList] del selector
- *  4.2) Ver si es aquí que manejamos los errores o dentro de las funciones llamadas
- * 5) Devolvemos searchOrder (JSON completo actualizado)como respuesta a la llamada inicial
- */
 require('dotenv').config();
 
 const Koa = require('koa');
@@ -26,9 +13,11 @@ app.use(bodyParser());
 app.use(cors());
 
 router.get("/", async (ctx, next) => {
-    let searchOrder = ctx.request.body;
-    let respuesta = await scrapeMeThis(searchOrder.searchData);
-    ctx.body = respuesta;
+    const searchOrder = ctx.request.body;
+    const respuesta = await scrapeMeThis(searchOrder.searchData);
+    console.log(typeof respuesta);
+    searchOrder.productList = respuesta;
+    ctx.body = searchOrder;
 });
 
 app.use(router.routes()).use(router.allowedMethods());

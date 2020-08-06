@@ -62,7 +62,7 @@ const amaSearch = async (searchTerm) => {
     }
 
     await browser.close();
-    return JSON.stringify(arregloDeProductos);
+    return arregloDeProductos;
 };
 
 module.exports = amaSearch;
