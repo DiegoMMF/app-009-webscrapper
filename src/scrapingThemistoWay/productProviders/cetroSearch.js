@@ -1,3 +1,7 @@
+/**
+ * @fileoverview búsqueda del producto exclusiva para 
+ * cetrogar
+ */
 const puppeteer = require('puppeteer');
 
 const cetroSearch = async (searchTerm) => {
@@ -13,6 +17,12 @@ const cetroSearch = async (searchTerm) => {
     let arregloDeElementos = [];
     arregloDeElementos = await page.$$('#maincontent > div.columns > div.column.main > div.search.results > div.products.wrapper.grid.products-grid > ol > li')
     const arregloDeProductos = [];
+    
+    /**
+     * en el loop siguiente creamos el objeto entero de Producto
+     * para que en la validación no nos dé error, y después sobreescribimos
+     * de acuerdo a los items conseguidos
+     */
     for (const cadaElemento of arregloDeElementos) {
         const productoAGuardar = {
             SKU: "No posee",                    // después lo acomodamos

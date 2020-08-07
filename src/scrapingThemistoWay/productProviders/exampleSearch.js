@@ -1,3 +1,7 @@
+/**
+ * @fileoverview búsqueda del producto exclusiva para 
+ * un sitio bobo con fines de comprobación y testeo
+ */
 const puppeteer = require('puppeteer');
 
 const exampleSearch = async (searchTerm) => {
@@ -17,6 +21,11 @@ const exampleSearch = async (searchTerm) => {
     let arregloDeElementos = [];
     arregloDeElementos = await page.$$('#default > div > div > div > div > section > div:nth-child(2) > ol > li')
       
+    /**
+     * en el loop siguiente creamos el objeto entero de Producto
+     * para que en la validación no nos dé error, y después sobreescribimos
+     * de acuerdo a los items conseguidos
+     */
     const arregloDeProductos = [];
     for (const cadaElemento of arregloDeElementos) {
         const productoAGuardar = {

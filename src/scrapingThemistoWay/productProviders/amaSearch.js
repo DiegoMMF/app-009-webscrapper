@@ -1,3 +1,7 @@
+/**
+ * @fileoverview búsqueda del producto exclusiva para 
+ * amazon
+ */
 const puppeteer = require('puppeteer')
 
 const amaSearch = async (searchTerm) => {
@@ -18,6 +22,11 @@ const amaSearch = async (searchTerm) => {
 
     const arregloDeProductos = [];
 
+    /**
+     * en el loop siguiente creamos el objeto entero de Producto
+     * para que en la validación no nos dé error, y después sobreescribimos
+     * de acuerdo a los items conseguidos
+     */
     for (const cadaElemento of arregloDeElementos) {
         const productoAGuardar = {
             SKU: "No posee",                    // después lo acomodamos
