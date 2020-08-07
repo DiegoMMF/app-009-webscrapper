@@ -19,7 +19,8 @@ router.get("/", (ctx, next) => {
 });
 
 router.post("/", async (ctx, next) => {
-    if (ctx.is() === null) {
+    //    console.log("ctx.is: \n", ctx.is());
+    if (ctx.is() === false) {
         ctx.body = "Request must contain a SearchOrder schema-type BODY. Try again, please.";
     } else {    
         const searchOrder = ctx.request.body;
