@@ -14,7 +14,11 @@ app.use(bodyParser());
 app.use(cors());
 app.use(KoaLogger())
 
-router.get("/", async (ctx, next) => {
+router.get("/", (ctx, next) => {
+    ctx.body = "Bienvenid@ a Themisto Web Service!";
+});
+
+router.post("/", async (ctx, next) => {
     if (ctx.is() === null) {
         ctx.body = "Request must contain a SearchOrder schema-type BODY. Try again, please.";
     } else {    
