@@ -5,12 +5,14 @@ const KoaRouter = require("koa-router");
 const cors = require("@koa/cors");
 const bodyParser = require('koa-bodyparser');
 const scrapeMeThis = require('./src/scrapingThemistoWay/scrapeMeThis');
+const KoaLogger = require('koa-logger');
 
 const app = new Koa();
 const router = new KoaRouter();
 
 app.use(bodyParser());
 app.use(cors());
+app.use(KoaLogger())
 
 router.get("/", async (ctx, next) => {
     if (ctx.is() === null) {
@@ -19,6 +21,9 @@ router.get("/", async (ctx, next) => {
         const searchOrder = ctx.request.body;
         const respuesta = await scrapeMeThis(searchOrder.searchData);
         searchOrder.productList = respuesta;
+
+        console.log("Dentro de Themisto, searchOrder.productList justo antes de devolverlo a Ganymede", searchOrder.productList);
+
         ctx.body = searchOrder;
     }
 });
