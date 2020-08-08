@@ -5,7 +5,7 @@
 const puppeteer = require('puppeteer');
 
 const cetroSearch = async (searchTerm) => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ args: [ '--no-sandbox', '--disable-setuid-sandbox' ]});
     const page = await browser.newPage();
     await page.goto("https://www.cetrogar.com.ar/", { timeout: 0 });
     await page.type("#search", searchTerm, { delay: 100 });

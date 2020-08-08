@@ -5,7 +5,7 @@
 const puppeteer = require('puppeteer')
 
 const amaSearch = async (searchTerm) => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ args: [ '--no-sandbox', '--disable-setuid-sandbox' ]});
     const page = await browser.newPage();
     await page.goto('https://www.amazon.com.mx', { timeout: 0 })
     await page.type('#twotabsearchtextbox', searchTerm, { delay: 100 })

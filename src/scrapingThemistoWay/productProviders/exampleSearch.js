@@ -6,7 +6,7 @@ const puppeteer = require('puppeteer');
 
 const exampleSearch = async (searchTerm) => {
     
-    const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+    const browser = await puppeteer.launch({ args: [ '--no-sandbox', '--disable-setuid-sandbox' ]});
 //  const browser = await puppeteer.launch();
 //  anterior pero me tiraba error /app/node_modules/puppeteer/.local-chromium/linux-782078/chrome-linux/chrome:
 //  error while loading shared libraries: libnss3.so: cannot open shared object file: No such file or directory
