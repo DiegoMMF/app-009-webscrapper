@@ -1,5 +1,5 @@
 {
-  "name": "themisto",
+  "name": "theSearcher",
   "version": "1.0.0",
   "description": "product search with puppeteer recives jobs from ganymede",
   "main": "app.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DiegoMMF/themisto.git"
+    "url": "git+https://github.com/DiegoMMF/theSearcher.git"
   },
   "keywords": [
     "web",
@@ -22,9 +22,9 @@
   "author": "Diego M. Maldini Freyre",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DiegoMMF/themisto/issues"
+    "url": "https://github.com/DiegoMMF/theSearcher/issues"
   },
-  "homepage": "https://github.com/DiegoMMF/themisto#readme",
+  "homepage": "https://github.com/DiegoMMF/theSearcher#readme",
   "dependencies": {
     "@koa/cors": "^3.1.0",
     "dotenv": "^8.2.0",
