@@ -19,7 +19,7 @@
 # So far
 1) we built dummy-data in ".env" for testing: SEARCH_DATA={ query, provider, searchOrderID, options }
 
-2) tendremos que enviarle todo el objeto recibido por ganymede a un módulo intermedio que distinga de qué proveedor se trata
+2) tendremos que enviarle todo el objeto recibido por theReceiver a un módulo intermedio que distinga de qué proveedor se trata
     y luego éste módulo redirija a la instancia de Puppeteer correspondiente a través de un switch
 
 3) finalmente, 
@@ -28,7 +28,7 @@
 Recibimos el JSON de Ganymede que contiene lo necesario para efectuar la búsqueda:
 {
     cliente: {
-        nombre: "ganymede",
+        nombre: "theReceiver",
         clave: "ganym3d3"
         searchOrderID
     },

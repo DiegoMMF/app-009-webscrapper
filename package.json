@@ -1,7 +1,7 @@
 {
   "name": "theSearcher",
   "version": "1.0.0",
-  "description": "product search with puppeteer recives jobs from ganymede",
+  "description": "product search with puppeteer recives jobs from theReceiver",
   "main": "app.js",
   "scripts": {
     "start": "node index.js",
