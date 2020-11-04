@@ -1,76 +1,63 @@
-# product-search-web-service (part of https://github.com/DiegoMMF/app-009-webscrapping-api-web-service)
+(Work in progress. Author: Diego M. Maldini Freyre.)
 
-1) LISTO:Requerimos dotenv para utilizar variables de entorno
+# Puppeteer (https://pptr.dev/) based product search web service across two node.js apps using koa.js (https://koajs.com/)
 
-2) LISTO:Importamos e inicializamos módulos del servidor y middlewares (enrutadores)
+## This app, called 'theIntermediary':
+    • exposes the web service API
+    • handles clients authentication
+    • handles persistence with mongoDB using mongoDB Node Driver (https://docs.mongodb.com/drivers/node/)
+    • delegates search jobs to ‘theScrapper’ app
 
-3) LISTO:Recibimos un GET con el JSON searchOrder completa
+'theScrapper' is the one that receives jobs from 'theIntermediary' and uses Puppeteer to run searches on a provider's website.
 
-    falta    3.1) Ver si es aquí que solucionamos el problema de la autenticación (para que sólo Ganymede nos llame)
+### Both apps are hosted in Heroku:
+- https://diegommf-ganymede.herokuapp.com as 'theIntermediary', and
+- https://diegommf-themisto.herokuapp.com as 'theScrapper'.
 
-4) LISTO Pasamos searchOrder.searchData al módulo selector.js (debemos importarlo)
-
-    LISTO    4.1) Recibimos [status, productList] del selector
-
-    falta    4.2) Ver si es aquí que manejamos los errores o dentro de las funciones llamadas
-
-5) LISTO Devolvemos searchOrder (JSON completo actualizado)como respuesta a la llamada inicial
-
-# So far
-1) we built dummy-data in ".env" for testing: SEARCH_DATA={ query, provider, searchOrderID, options }
-
-2) tendremos que enviarle todo el objeto recibido por theReceiver a un módulo intermedio que distinga de qué proveedor se trata
-    y luego éste módulo redirija a la instancia de Puppeteer correspondiente a través de un switch
-
-3) finalmente, 
-
-# Lo que haremos
-Recibimos el JSON de Ganymede que contiene lo necesario para efectuar la búsqueda:
+#### POST /api/product/search
+This endpoint receives a JSON object with the search data, as follows:
 {
-    cliente: {
-        nombre: "theReceiver",
-        clave: "ganym3d3"
-        searchOrderID
-    },
-    searchData: {
-        query: "silla",
-        provider: "proveedor",
-        options: {
-            finalUserName: "nombreUsuarioEnProveedor",
-            finalUserPass: "claveUsuarioEnProveedor"
-        }
-    }
+query : 'chair',
+provider : 'amazon',
+options: {
+user: '[a username],
+password : '[a password]'
+} ,
+callbackUrl : 'http://my-endpoint.com/results'
 }
 
+Where:
+- query is the search string.
+- provider is a key that specifies which provider the search must be run on.
+- options are provider specific options.
+- callbackUrl is a URL where the search results will be posted.
 
-Cotejamos que el JSON tenga usuario y clave adecuadas que bien podrían estar guardados como variable de entorno.
+For each request a Search Order is created and persisted to the database. An order consists of:
+- A unique ID.
+- The search data, as received in the request.
+- An order status. Can be either received (default), processing, fulfilled or failed.
+- The product list result, which sits empty until the order is fulfilled.
 
+Once a search order is placed, the endpoint responds with the newly created order.
 
-Lanzamos la instancia adecuada de Puppeteer, según el proveedor que hayan requerido
-con {searchData} como parámetro. Llamarlo como función en otro archivo, mediante un switch e/proveedores
+#### GET /api/product/search-order/{order-id}
+This endpoint receives an order ID, and responds with the order object.
 
+#### GET /api/product/search-orders
+This endpoint returns the full list of search orders.
 
-Recogemos la devolución de la función anterior.
-Si la búsqueda da error, enviamos un HTTP con el código correspondiente + searchOrderID.
-Si la búsqueda es exitosa, enviamos un HTTP/JSON con { listaProductos + search_order_id }
+#### GET /api/product/category/{product-category-id}
+This endpoint returns the list of all products associated with the given product category ID. 
 
-# Consignas
-Search jobs: 
-1) G delegates search jobs to T.
-2) Ensure clients are properly authenticated.
-3) T uses Puppeteer to crawl the website of the corresponding provider and performs an automated search for products.
-4) Each provider may allow / require different options, such as user credentials.
+…
+All products are persisted to the database, with the following schema:
+- SKU.
+- Product name / title.
+- Price.
+- Original Price, if there's a discount.
+- Product Category ID. An identifier for the product category. Can be a relative path or URL identifying the category the product falls into. Must be consistent across different products of the same category.
+- Description, if any.
+- Images as a list of URLs.
+- Related search queries.
 
-# Running Puppeteer on Heroku:
-
-Running Puppeteer on Heroku requires some additional dependencies that aren't included on the Linux box that Heroku spins up for you. To add the dependencies on deploy, add the Puppeteer Heroku buildpack to the list of buildpacks for your app under Settings > Buildpacks. 
-
-The url for the buildpack is https://github.com/jontewks/puppeteer-heroku-buildpack
-
-Ensure that you're using '--no-sandbox' mode when launching Puppeteer. This can be done by passing it as an argument to your .launch() call: puppeteer.launch({ args: ['--no-sandbox'] });.
-
-When you click add buildpack, simply paste that url into the input, and click save. On the next deploy, your app will also install the dependencies that Puppeteer needs to run.
-
-If you need to render Chinese, Japanese, or Korean characters you may need to use a buildpack with additional font files like https://github.com/CoffeeAndCode/puppeteer-heroku-buildpack
-
-There's also another simple guide from @timleland that includes a sample project: https://timleland.com/headless-chrome-on-heroku/.
+Finally, 'theIntermediary' makes a request to callbackUrl reporting the order status and, if fulfilled, the API URL where the order data is served.
