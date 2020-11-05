@@ -1,3 +1,5 @@
+(work in progress)
+
 # Puppeteer (https://pptr.dev/) based product search web service across two node.js apps.
 
 ## This app, called 'web-scrapper' receives search jobs delegated from 'product-searcher'.
